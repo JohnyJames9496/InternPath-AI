@@ -1,42 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from "jwt-decode"
-
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 const HeroSection = () => {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const { user } = useContext(UserContext);
 
-    useEffect(() => {
-      const token = localStorage.getItem("access_token");
-      if (token) {
-        try {
-          const decoded = jwtDecode(token);
-          if (decoded.exp * 1000 < Date.now()) {
-            localStorage.removeItem("access_token");
-            navigate("/Login");
-            return
-          }
-          
-          setUser(decoded);
-        }
-        catch (err) {
-          localStorage.removeItem("access_token");
-          navigate("/Login");
-        }
-      }
-    }, [navigate])
-
-    const handleExploreNow = () => {
-      const token = localStorage.getItem("access_token");
-      
-      if (!token) {
-        // User not logged in, redirect to login
-        navigate("/Login");
-      } else {
-        // User is logged in, go to dashboard
-        navigate("/dashboard");
-      }
+     const handleExploreNow = () => {
+    if (!user) {
+      navigate("/Login");
+    } else {
+      navigate("/dashboard");
     }
+  };
     
   return (
     <div className="bg-white min-h-screen">
@@ -46,7 +22,7 @@ const HeroSection = () => {
           user ? (
              <div className="flex items-center gap-4">
             <span className="text-slate-700 font-medium">
-              Welcome, {user.username}
+              Welcome, {user.name}
             </span>
           </div>
           ) : (
