@@ -21,15 +21,16 @@ function App() {
       <Router basename="">
       <UserProvider>
           <Routes>
-            <Route element={<AppLayout />}>
+            <Route element={
+              <ProfileGate>
+                <AppLayout />
+              </ProfileGate>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/Internship" element={<Internship/>} />
             <Route path="/resume" element={<ResumeAssessment />} />
             <Route path="fake-internship" element={<FakeInternship/>} />
             </Route>
-            <Route path="/" element={<ProfileGate>
-                                        <HeroSection/>
-                                     </ProfileGate>} />
+            <Route path="/" element={<HeroSection/>} />
             <Route path="/Internship/:id" element={<InternshipDetails/>} />
             <Route path="/Signup" element={<SignupPage/>} />
             <Route path="/Login" element={<LoginPage />} />
