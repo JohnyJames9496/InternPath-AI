@@ -7,6 +7,7 @@ from database.database import SessionLocal
 from database.models import ChatMessage,ChatSession
 from database.schemas import ChatMessageResponse,ChatRequest,ChatResponse,ChatSessionResponse
 from ai.graph import create_graph
+from functools import lru_cache
 from dependencies import get_current_user
 
 router = APIRouter(prefix="/ai",tags=["AI Chatbot"])
@@ -18,7 +19,9 @@ def get_db():
     finally:
         db.close()
 
-graph = create_graph()
+@lru_cache()
+def get_graph():
+    return create_graph()
 
 @router.post("/chat",response_model=ChatResponse)
 async def chat(req : ChatRequest,db:Session = Depends(get_db),current_user = Depends(get_current_user)):
@@ -62,6 +65,7 @@ async def chat(req : ChatRequest,db:Session = Depends(get_db),current_user = Dep
             f"{msg.role.upper()}: {msg.content}"
             for msg in messages[:-1]
         )
+        graph = get_graph()
         
         result = await graph.ainvoke({
             "input":req.message,
