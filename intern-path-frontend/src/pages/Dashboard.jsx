@@ -129,7 +129,7 @@ const { user, userProfile, setUserProfile, loading } = useContext(UserContext);
               <p className="text-sm text-gray-500">
                 Internship Readiness Score
               </p>
-              <h3 onClick={fetchReadiness} className="text-4xl font-bold text-indigo-600">{readinessData?.percentage_score || ""} %</h3>
+              <h3 onClick={fetchReadiness} className="text-4xl font-bold text-indigo-600 cursor-pointer">{readinessData?.percentage_score || ""} %</h3>
             </div>
             {/* <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2 rounded-lg font-medium transition">
               Edit UserProfile
