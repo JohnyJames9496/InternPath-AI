@@ -73,7 +73,7 @@ const FakeInternship = () => {
             Fake Internship Checker
           </h1>
           <p className="text-gray-600 mt-2">
-            Paste the internship link. We will scan it for suspicious keywords.
+            Paste the internship link. We will analyze risk and trust signals from that page.
           </p>
         </div>
 
@@ -122,12 +122,17 @@ const FakeInternship = () => {
             </h2>
 
             <div className={`flex items-start gap-4 ${styles.bg} border-l-4 ${styles.border} p-6 rounded-xl`}>
-              <ShieldCheck className="text-green-600 mt-1" />
+              {styles.icon}
 
               <div>
                 <h3 className={`font-semibold ${styles.text} `}>
                   {result.risk_level}
                 </h3>
+                {typeof result.risk_score !== "undefined" && typeof result.confidence_percentage !== "undefined" && (
+                  <p className="mt-1 text-sm text-gray-600">
+                    Risk Score: {result.risk_score} • Confidence: {result.confidence_percentage}%
+                  </p>
+                )}
                 <ul className="mt-2 text-gray-700 list-disc list-inside">
                   {result.reasons.map((reason, index) => (
                     <li key={index}>{reason}</li>
