@@ -78,7 +78,16 @@ const LoginPage = () => {
       setUser(null);
     }
 
-    setUserProfile(null);
+    try {
+      const profileRes = await api.get("/profile/");
+      setUserProfile(profileRes.data);
+    } catch (profileErr) {
+      if (profileErr.response?.status === 404) {
+        setUserProfile(null);
+      } else {
+        throw profileErr;
+      }
+    }
 
     toast.success("Login successful 🎉");
 
@@ -120,7 +129,16 @@ const LoginPage = () => {
       setUser(null);
     }
 
-    setUserProfile(null);
+    try {
+      const profileRes = await api.get("/profile/");
+      setUserProfile(profileRes.data);
+    } catch (profileErr) {
+      if (profileErr.response?.status === 404) {
+        setUserProfile(null);
+      } else {
+        throw profileErr;
+      }
+    }
 
     toast.success("Google Login Success 🎉");
 

@@ -74,8 +74,18 @@ const SignupPage = () => {
         setUser(null)
       }
 
-      // New users may not have a profile yet.
-      setUserProfile(null)
+      // Hydrate profile state so route guards can decide correctly.
+      try {
+        const profileRes = await api.get("/profile/")
+        setUserProfile(profileRes.data)
+      } catch (profileErr) {
+        if (profileErr.response?.status === 404) {
+          setUserProfile(null)
+        } else {
+          throw profileErr
+        }
+      }
+
       toast.success("Signup successfully..")
       navigate("/");
     }
