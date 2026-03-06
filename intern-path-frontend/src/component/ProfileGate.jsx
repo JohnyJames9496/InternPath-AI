@@ -1,18 +1,19 @@
 import { useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import React from "react";
 const ProfileGate = ({ children }) => {
   const { user,userProfile, loading } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (loading) return;
 
     // Not logged in
     if (!user) {
-      if (location.pathname !== "/login") {
-        navigate("/login");
+      if (location.pathname !== "/Login") {
+        navigate("/Login");
       }
       return;
     }
@@ -24,7 +25,7 @@ const ProfileGate = ({ children }) => {
       }
       return;
     }
-  }, [loading, userProfile, navigate,user]);
+  }, [loading, userProfile, navigate, user, location.pathname]);
 
   if (loading) {
     return (
