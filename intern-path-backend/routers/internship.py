@@ -8,7 +8,7 @@ from sqlalchemy import text, or_
 from database import models, database
 from dependencies import get_current_user
 from services.request_cache import request_cache
-
+from scraper.internshala import scrape_internshala
 router = APIRouter(prefix="/jobs", tags=["Internships"])
 
 
@@ -202,3 +202,11 @@ def recommend_internship(
     top_recommendations = recommendations[:20]
     request_cache.set(cache_key, top_recommendations, ttl_seconds=180)
     return top_recommendations
+
+@router.post("/scrape")
+async def run_scraper(db: Session = Depends(get_db)):
+    total = await scrape_internshala(db)
+    return {
+        "message": "Scraping completed",
+        "total_saved": total
+    }
