@@ -11,7 +11,7 @@ This project aims to build an intelligent internship discovery platform that:
 - Scrapes internship data from multiple online sources
 - Extracts and normalizes relevant information such as skills, location, stipend, etc.
 - Builds a searchable database of internships
-- Integrates an NLP-based chatbot to assist users with personalized recommendations and queries
+- Integrates an RAG-based chatbot to assist users with personalized recommendations and queries
 
 ---
 
