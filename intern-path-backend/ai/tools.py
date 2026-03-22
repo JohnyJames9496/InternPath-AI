@@ -1,5 +1,5 @@
 from langchain_core.tools import tool
-from ddgs import DDGS  # ✅ Updated import
+from ddgs import DDGS  
 
 @tool
 def web_search(query: str) -> str:
@@ -7,7 +7,7 @@ def web_search(query: str) -> str:
     try:
         print(f"🔍 Searching web: '{query}'")
         
-        # ✅ New ddgs usage (no context manager needed)
+        # New ddgs usage (no context manager needed)
         ddgs = DDGS()
         results = ddgs.text(
             query,
@@ -21,7 +21,7 @@ def web_search(query: str) -> str:
             print("⚠️ No results from DDGS")
             return "No current information found from web search."
         
-        print(f"✅ Found {len(results)} results")
+        print(f"Found {len(results)} results")
         
         output = []
         for i, r in enumerate(results[:3], 1):  # Use top 3 results
@@ -38,8 +38,8 @@ Link: {link}
             output.append(result_text)
         
         full_output = "\n".join(output)
-        print(f"📄 Output length: {len(full_output)} chars")
-        print(f"📄 Preview: {full_output[:200]}...")
+        print(f" Output length: {len(full_output)} chars")
+        print(f" Preview: {full_output[:200]}...")
         
         return full_output
         
