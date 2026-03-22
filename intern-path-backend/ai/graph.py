@@ -8,9 +8,7 @@ from database.database import SessionLocal
 import os
 
 
-# =========================
 # STATE
-# =========================
 class AgentState(TypedDict):
     input: str
     history: str
@@ -20,9 +18,8 @@ class AgentState(TypedDict):
     web_context: str
 
 
-# =========================
+
 # UTILITY: TRUNCATE HISTORY
-# =========================
 def truncate_history(history: str, max_exchanges: int = 4) -> str:
     if not history:
         return ""
@@ -34,9 +31,7 @@ def truncate_history(history: str, max_exchanges: int = 4) -> str:
     return "\nUSER: ".join(exchanges)
 
 
-# =========================
 # CREATE GRAPH
-# =========================
 def create_graph():
 
     # 🔹 Single LLM (Only one used)
@@ -51,9 +46,8 @@ def create_graph():
 
     workflow = StateGraph(AgentState)
 
-    # ==========================================
+    
     # NODE 1: FETCH USER PROFILE
-    # ==========================================
     def fetch_profile_node(state: AgentState):
 
         db = SessionLocal()
@@ -97,9 +91,8 @@ User Profile:
         finally:
             db.close()
 
-    # ==========================================
+   
     # NODE 2: OPTIONAL WEB SEARCH
-    # ==========================================
     def search_node(state: AgentState):
 
         user_input = state["input"]
@@ -113,9 +106,7 @@ User Profile:
         except Exception:
             return {"web_context": ""}
 
-    # ==========================================
     # NODE 3: GENERATE RESPONSE (Single LLM Call)
-    # ==========================================
     def mentor_node(state: AgentState):
 
         user_input = state["input"].strip()[:500]
@@ -180,9 +171,7 @@ Your response:
             "history": new_history,
         }
 
-    # ==========================================
     # BUILD WORKFLOW
-    # ==========================================
     workflow.add_node("fetch_profile", fetch_profile_node)
     workflow.add_node("search", search_node)
     workflow.add_node("mentor", mentor_node)
